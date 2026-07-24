@@ -126,11 +126,11 @@ th{background:#f8f9fa;font-weight:600;color:#2c3e50}
 <p style="color:#666;margin-bottom:25px">Accesso Gestionale</p>
 <div class="form-group">
 <label>Username</label>
-<input type="text" id="gestionaleUser" placeholder="">
+<input type="text" id="gestionaleUser" placeholder="" autocomplete="off">
 </div>
 <div class="form-group">
 <label>Password</label>
-<input type="password" id="gestionalePass" placeholder="Password">
+<input type="password" id="gestionalePass" placeholder="Password" autocomplete="new-password">
 </div>
 <button class="btn btn-primary" onclick="loginGestionale()" style="width:100%;padding:14px;font-size:16px">Accedi</button>
 <div id="gestionaleError" class="login-error"></div>
@@ -146,7 +146,7 @@ th{background:#f8f9fa;font-weight:600;color:#2c3e50}
 <p style="color:#666;margin-bottom:25px">Accesso Negozio</p>
 <div class="form-group">
 <label>Password Admin</label>
-<input type="password" id="negozioPass" placeholder="Password">
+<input type="password" id="negozioPass" placeholder="Password" autocomplete="new-password">
 </div>
 <button class="btn btn-primary" onclick="loginNegozio()" style="width:100%;padding:14px;font-size:16px">Accedi</button>
 <div id="negozioError" class="login-error"></div>
@@ -181,8 +181,8 @@ th{background:#f8f9fa;font-weight:600;color:#2c3e50}
 
 <div id="gest-clienti" class="section-content">
 <div class="panel">
-<h2>👥 Gestione Clienti</h2>
-<button class="btn btn-success" onclick="addClient()">➕ Nuovo Cliente</button>
+<h2> Gestione Clienti</h2>
+<button class="btn btn-success" onclick="addClient()"> Nuovo Cliente</button>
 <table id="gestClientsTable">
 <thead>
 <tr><th>Nome</th><th>Email</th><th>Telefono</th><th>Data</th><th>Azioni</th></tr>
@@ -299,7 +299,7 @@ function loginGestionale() {
         document.getElementById('gestionaleApp').style.display = 'block';
         updateGestDashboard();
     } else {
-        document.getElementById('gestionaleError').textContent = '❌ Credenziali errate!';
+        document.getElementById('gestionaleError').textContent = ' Credenziali errate!';
     }
 }
 
