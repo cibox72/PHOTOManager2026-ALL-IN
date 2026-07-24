@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Negozio - PHOTOManager2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f4f6f9;color:#333;min-height:100vh}
+.login-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;z-index:2000}
+.login-box{background:#fff;padding:40px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.3);width:90%;max-width:400px;text-align:center}
+.login-box h2{color:#2c3e50;margin-bottom:20px}
+.form-group{margin-bottom:15px;text-align:left}
+.form-group label{display:block;margin-bottom:5px;font-weight:600;font-size:14px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px}
+.btn{padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;margin-right:5px}
+.btn-primary{background:#667eea;color:#fff}
+.btn-success{background:#27ae60;color:#fff}
+.btn-danger{background:#e74c3c;color:#fff}
+.btn-secondary{background:#95a5a6;color:#fff}
+.header{background:#2c3e50;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:22px}
+.container{max-width:1200px;margin:20px auto;padding:0 20px}
+.panel{background:#fff;border-radius:10px;padding:25px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.panel h2{color:#2c3e50;margin-bottom:20px;border-bottom:2px solid #667eea;padding-bottom:10px}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid #eee;font-size:14px}
+th{background:#f8f9fa;font-weight:600}
+.product-img{width:60px;height:60px;object-fit:cover;border-radius:6px}
+.badge{padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600}
+.badge-warning{background:#fff3cd;color:#856404}
+.badge-success{background:#d4edda;color:#155724}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginOverlay" class="login-overlay">
+<div class="login-box">
+<h2> Accesso Amministratore</h2>
+<p style="color:#666;margin-bottom:20px">Gestione Negozio</p>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="adminPass" placeholder="Inserisci password" autocomplete="new-password">
+</div>
+<button class="btn btn-primary" onclick="doLogin()" style="width:100%;padding:12px">Accedi</button>
+<p id="loginError" style="color:red;margin-top:10px;display:none">Password errata!</p>
+<p style="margin-top:20px"><a href="index.html" style="color:#667eea;text-decoration:none">← Torna al Negozio Cliente</a></p>
+</div>
+</div>
+
+<!-- DASHBOARD ADMIN -->
+<div id="adminPanel" class="hidden">
+<div class="header">
+<h1>🛒 Admin Negozio - PHOTOManager2026</h1>
+<div>
+<button class="btn btn-secondary" onclick="showSection('prodotti')">Prodotti</button>
+<button class="btn btn-secondary" onclick="showSection('ordini')">Ordini</button>
+<button class="btn btn-danger" onclick="doLogout()">Esci</button>
+</div>
+</div>
+
+<div class="container">
+<!-- SEZIONE PRODOTTI -->
+<div id="section-prodotti">
+<div class="panel">
+<h2>➕ Aggiungi Nuovo Prodotto / Gadget</h2>
+<div class="form-group">
+<label>Nome Prodotto *</label>
+<input type="text" id="prodName" placeholder="Es. Tazza Personalizzata">
+</div>
+<div class="form-group">
+<label>Categoria</label>
+<select id="prodCategory">
+<option value="Gadget">Gadget</option>
+<option value="Stampe">Stampe</option>
+<option value="Tele">Tele</option>
+<option value="Album">Album</option>
+<option value="Altro">Altro</option>
+</select>
+</div>
+<div class="form-group">
+<label>Prezzo (€) *</label>
+<input type="number" id="prodPrice" step="0.01" placeholder="0.00">
+</div>
+<div class="form-group">
+<label>Immagine (URL o Base64)</label>
+<input type="text" id="prodImage" placeholder="Incolla link immagine o carica file">
+<input type="file" id="prodImageFile" accept="image/*" style="margin-top:10px" onchange="convertImage(this)">
+</div>
+<div class="form-group">
+<label>Descrizione</label>
+<textarea id="prodDesc" rows="3" placeholder="Descrizione del prodotto..."></textarea>
+</div>
+<button class="btn btn-success" onclick="addProduct()">💾 Salva Prodotto</button>
+</div>
+
+<div class="panel">
+<h2>📦 Elenco Prodotti</h2>
+<table>
+<thead>
+<tr><th>Immagine</th><th>Nome</th><th>Categoria</th><th>Prezzo</th><th>Azioni</th></tr>
+</thead>
+<tbody id="productsTable"></tbody>
+</table>
+</div>
+</div>
+
+<!-- SEZIONE ORDINI -->
+<div id="section-ordini" class="hidden">
+<div class="panel">
+<h2>📋 Ordini Ricevuti</h2>
+<table>
+<thead>
+<tr><th>Data</th><th>Cliente</th><th>Prodotti</th><th>Totale</th><th>Stato</th></tr>
+</thead>
+<tbody id="ordersTable"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'photo2026'; // CAMBIA QUESTA PASSWORD
+const DB_KEY = 'negozio_db'; // Stessa chiave del file index.html cliente
+
+function doLogin() {
+    const p = document.getElementById('adminPass').value;
+    if (p === ADMIN_PASSWORD) {
+        sessionStorage.setItem('admin_logged', 'true');
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('adminPanel').classList.remove('hidden');
+        loadProducts();
+        loadOrders();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
+    }
+}
+
+function doLogout() {
+    sessionStorage.removeItem('admin_logged');
+    location.reload();
+}
+
+function showSection(section) {
+    document.getElementById('section-prodotti').classList.add('hidden');
+    document.getElementById('section-ordini').classList.add('hidden');
+    document.getElementById('section-' + section).classList.remove('hidden');
+}
+
+function getDB() {
+    try {
+        const d = JSON.parse(localStorage.getItem(DB_KEY));
+        if (d) return d;
+    } catch (e) {}
+    return { products: [], orders: [] };
+}
+
+function saveDB(db) {
+    localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+function convertImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('prodImage').value = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function addProduct() {
+    const name = document.getElementById('prodName').value.trim();
+    const price = parseFloat(document.getElementById('prodPrice').value);
+    const category = document.getElementById('prodCategory').value;
+    const image = document.getElementById('prodImage').value;
+    const desc = document.getElementById('prodDesc').value.trim();
+
+    if (!name || isNaN(price)) {
+        alert('Inserisci almeno Nome e Prezzo!');
+        return;
+    }
+
+    const db = getDB();
+    db.products.push({
+        id: Date.now(),
+        name, price, category, image, desc
+    });
+    saveDB(db);
+    
+    // Reset form
+    document.getElementById('prodName').value = '';
+    document.getElementById('prodPrice').value = '';
+    document.getElementById('prodImage').value = '';
+    document.getElementById('prodDesc').value = '';
+    document.getElementById('prodImageFile').value = '';
+    
+    loadProducts();
+    alert('✅ Prodotto aggiunto!');
+}
+
+function loadProducts() {
+    const db = getDB();
+    const tbody = document.getElementById('productsTable');
+    if (db.products.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888">Nessun prodotto</td></tr>';
+        return;
+    }
+    tbody.innerHTML = db.products.map(p => `
+        <tr>
+            <td>${p.image ? `<img src="${p.image}" class="product-img">` : '📸'}</td>
+            <td><strong>${p.name}</strong></td>
+            <td>${p.category}</td>
+            <td>€${p.price.toFixed(2)}</td>
+            <td><button class="btn btn-danger" onclick="deleteProduct(${p.id})">🗑️</button></td>
+        </tr>
+    `).join('');
+}
+
+function deleteProduct(id) {
+    if (!confirm('Eliminare questo prodotto?')) return;
+    const db = getDB();
+    db.products = db.products.filter(p => p.id !== id);
+    saveDB(db);
+    loadProducts();
+}
+
+function loadOrders() {
+    const db = getDB();
+    const tbody = document.getElementById('ordersTable');
+    if (db.orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888">Nessun ordine</td></tr>';
+        return;
+    }
+    tbody.innerHTML = db.orders.map(o => `
+        <tr>
+            <td>${new Date(o.date).toLocaleDateString('it-IT')}</td>
+            <td>${o.cliente || 'Ospite'}</td>
+            <td>${o.items} articoli</td>
+            <td><strong>€${o.total.toFixed(2)}</strong></td>
+            <td><span class="badge badge-warning">${o.stato}</span></td>
+        </tr>
+    `).join('');
+}
+
+// Auto-login check
+if (sessionStorage.getItem('admin_logged') === 'true') {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('adminPanel').classList.remove('hidden');
+    loadProducts();
+    loadOrders();
+}
+</script>
+</body>
+</html>
