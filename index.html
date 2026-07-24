@@ -3,16 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PHOTOManager2026 - Piattaforma Unificata</title>
+<title><span style="color:#00FF00">PHOTOManager2026 - Piattaforma Unificata</span></title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh}
-.logo-container{text-align:center;padding:40px 20px}
-.logo-container img{max-width:250px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
-.main-title{text-align:center;color:#fff;margin:20px 0 40px}
-.main-title h1{font-size:42px;margin-bottom:10px;text-shadow:2px 2px 4px rgba(0,0,0,.3)}
-.main-title p{font-size:18px;opacity:.9}
-.apps-container{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;padding:20px;max-width:1200px;margin:0 auto}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f4f6f9;color:#333;min-height:100vh}
+.login-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;z-index:2000}
+.login-box{background:#fff;padding:50px 40px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.3);width:90%;max-width:400px;text-align:center}
+.login-box h2{color:#2c3e50;margin-bottom:25px}
+.login-box .logo{max-width:200px;margin-bottom:20px;border-radius:8px}
+.form-group{margin-bottom:15px;text-align:left}
+.form-group label{display:block;margin-bottom:5px;font-weight:600;font-size:14px;color:#555}
+.form-group input{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:16px}
+.form-group input:focus{outline:none;border-color:#667eea}
+.btn{padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;margin-right:5px;margin-bottom:5px;transition:all .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.btn-primary{background:#667eea;color:#fff}
+.btn-success{background:#27ae60;color:#fff}
+.btn-danger{background:#e74c3c;color:#fff}
+.btn-secondary{background:#95a5a6;color:#fff}
+.btn-warning{background:#f39c12;color:#fff}
+.btn-info{background:#17a2b8;color:#fff}
+.btn-sm{padding:6px 12px;font-size:12px}
+.main-header{background:#2c3e50;color:#fff;padding:15px 20px;text-align:center}
+.main-header h1{font-size:28px}
+.main-header p{font-size:13px;opacity:.8;margin-top:5px}
+.main-nav{background:#fff;padding:10px 20px;display:flex;gap:8px;align-items:center;box-shadow:0 2px 5px rgba(0,0,0,.05);overflow-x:auto;flex-wrap:wrap}
+.nav-btn{padding:8px 15px;border:none;background:transparent;cursor:pointer;font-weight:600;color:#555;border-radius:5px;white-space:nowrap;font-size:14px}
+.nav-btn:hover,.nav-btn.active{background:#667eea;color:#fff}
+.section-content{display:none;padding:20px;max-width:1400px;margin:0 auto}
+.section-content.active{display:block}
+.panel{background:#fff;border-radius:12px;padding:25px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.panel h2{color:#2c3e50;margin-bottom:20px;border-bottom:2px solid #667eea;padding-bottom:10px}
+.form-row{display:flex;gap:15px;flex-wrap:wrap}
+.form-row>div{flex:1;min-width:200px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#667eea}
+.stats-box{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap}
+.stat-item{background:#fff;padding:20px;border-radius:8px;border-left:4px solid #667eea;box-shadow:0 2px 5px rgba(0,0,0,.05);flex:1;min-width:150px}
+.stat-item strong{font-size:28px;color:#667eea;display:block}
+.stat-item span{font-size:13px;color:#666}
+table{width:100%;border-collapse:collapse;margin-top:15px;background:#fff;border-radius:8px;overflow:hidden}
+th,td{padding:12px 15px;text-align:left;border-bottom:1px solid #eee;font-size:14px}
+th{background:#f8f9fa;font-weight:600;color:#2c3e50}
+.badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge-success{background:#d4edda;color:#155724}
+.badge-warning{background:#fff3cd;color:#856404}
+.badge-danger{background:#f8d7da;color:#721c24}
+.search-box{margin-bottom:15px}
+.search-box input{max-width:300px}
+.card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,.05);margin-bottom:15px;border-left:4px solid #667eea}
+.card h3{color:#2c3e50;margin-bottom:10px}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal-content{background:#fff;padding:30px;border-radius:12px;width:90%;max-width:700px;max-height:80vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:15px;right:20px;font-size:24px;cursor:pointer;color:#666}
+.info-box{background:#e8f4fd;padding:15px;border-radius:8px;border-left:4px solid #3498db;margin:15px 0}
+.info-box strong{color:#2980b9}
+.login-error{color:#e74c3c;margin-top:15px;font-weight:600;min-height:20px}
+.landing-page{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px}
+.landing-logo{text-align:center;margin-bottom:40px}
+.landing-logo img{max-width:250px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.landing-title{text-align:center;color:#fff;margin-bottom:50px}
+.landing-title h1{font-size:42px;margin-bottom:10px;text-shadow:2px 2px 4px rgba(0,0,0,.3)}
+.landing-title p{font-size:18px;opacity:.9}
+.apps-grid{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;max-width:1200px;margin:0 auto}
 .app-card{background:#fff;border-radius:20px;padding:40px 30px;width:100%;max-width:400px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,.2);transition:all .3s;cursor:pointer}
 .app-card:hover{transform:translateY(-10px);box-shadow:0 20px 45px rgba(0,0,0,.3)}
 .app-icon{font-size:80px;margin-bottom:20px}
@@ -22,59 +78,533 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,
 .app-card .btn:hover{background:#764ba2;box-shadow:0 5px 15px rgba(102,126,234,.4)}
 .footer{text-align:center;color:#fff;padding:30px 20px;margin-top:40px;font-size:14px;opacity:.8}
 @media(max-width:768px){
-.apps-container{flex-direction:column;align-items:center}
+.apps-grid{flex-direction:column;align-items:center}
 .app-card{max-width:100%}
-.main-title h1{font-size:32px}
+.landing-title h1{font-size:32px}
+.form-row{flex-direction:column}
+.stats-box{flex-direction:column}
+.main-nav{justify-content:flex-start}
 }
 </style>
 </head>
 <body>
 
-<div class="logo-container">
+<!-- LANDING PAGE -->
+<div id="landingPage" class="landing-page">
+<div class="landing-logo">
 <img src="logo.jpg" alt="Logo Studio" onerror="this.style.display='none'">
 </div>
-
-<div class="main-title">
-<h1>Benvenuto nel Tuo Spazio</h1>
+<div class="landing-title">
+<h1><span style="color:#00FF00">PHOTOManager2026</span></h1>
 <p>Scegli l'area che desideri accedere</p>
 </div>
-
-<div class="apps-container">
-<!-- CARD GESTIONALE -->
-<div class="app-card" onclick="window.location.href='#gestionale'">
+<div class="apps-grid">
+<div class="app-card" onclick="showSection('gestionale')">
 <div class="app-icon">📸</div>
 <h2>Gestionale Studio</h2>
-<p>Gestisci clienti, preventivi, contratti e progetti fotografici in modo professionale e organizzato.</p>
-<a href="#gestionale" class="btn" onclick="showGestionale(event)">Accedi al Gestionale</a>
+<p>Gestisci clienti, preventivi, contratti e progetti fotografici in modo professionale.</p>
+<span class="btn">Accedi al Gestionale</span>
 </div>
-
-<!-- CARD NEGOZIO -->
-<div class="app-card" onclick="window.location.href='#negozio'">
-<div class="app-icon">🛒</div>
+<div class="app-card" onclick="showSection('negozio')">
+<div class="app-icon"></div>
 <h2>Negozio Online</h2>
-<p>Sfoglia le tue foto, scegli i prodotti e ordina stampe, tele, gadget e molto altro.</p>
-<a href="#negozio" class="btn" onclick="showNegozio(event)">Accedi al Negozio</a>
+<p>Sfoglia le foto, scegli i prodotti e ordina stampe, tele e gadget.</p>
+<span class="btn">Accedi al Negozio</span>
+</div>
+</div>
+<div class="footer">
+<p><span style="color:#00FF00">PHOTOManager2026</span> - Piattaforma Professionale</p>
+<p style="margin-top:10px;font-size:12px">© 2026 - Tutti i diritti riservati</p>
 </div>
 </div>
 
-<div class="footer">
-<p>PHOTOManager2026 - Piattaforma Professionale per Studi Fotografici</p>
-<p style="margin-top:10px;font-size:12px">© 2026 - Tutti i diritti riservati</p>
+<!-- LOGIN GESTIONALE -->
+<div id="gestionaleLogin" class="login-overlay" style="display:none">
+<div class="login-box">
+<img src="logo.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
+<h2><span style="color:#00FF00">PHOTOManager2026</span></h2>
+<p style="color:#666;margin-bottom:25px">Accesso Gestionale</p>
+<div class="form-group">
+<label>Username</label>
+<input type="text" id="gestionaleUser" placeholder="admin">
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="gestionalePass" placeholder="Password">
+</div>
+<button class="btn btn-primary" onclick="loginGestionale()" style="width:100%;padding:14px;font-size:16px">Accedi</button>
+<div id="gestionaleError" class="login-error"></div>
+<button class="btn btn-secondary" onclick="showLanding()" style="margin-top:15px">← Torna Indietro</button>
+</div>
+</div>
+
+<!-- LOGIN NEGOZIO -->
+<div id="negozioLogin" class="login-overlay" style="display:none">
+<div class="login-box">
+<img src="logo.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
+<h2><span style="color:#00FF00">PHOTOManager2026</span></h2>
+<p style="color:#666;margin-bottom:25px">Accesso Negozio</p>
+<div class="form-group">
+<label>Password Admin</label>
+<input type="password" id="negozioPass" placeholder="Password">
+</div>
+<button class="btn btn-primary" onclick="loginNegozio()" style="width:100%;padding:14px;font-size:16px">Accedi</button>
+<div id="negozioError" class="login-error"></div>
+<button class="btn btn-secondary" onclick="showLanding()" style="margin-top:15px">← Torna Indietro</button>
+</div>
+</div>
+
+<!-- APP GESTIONALE -->
+<div id="gestionaleApp" style="display:none">
+<header class="main-header">
+<h1>📸 <span style="color:#00FF00">PHOTOManager2026</span> - Gestionale</h1>
+<p>Gestione Studio Fotografico</p>
+</header>
+<nav class="main-nav">
+<button class="nav-btn active" onclick="showGestSection('dashboard')">📊 Dashboard</button>
+<button class="nav-btn" onclick="showGestSection('clienti')">👥 Clienti</button>
+<button class="nav-btn" onclick="showGestSection('preventivi')">📄 Preventivi</button>
+<button class="nav-btn" onclick="showGestSection('backup')">💾 Backup</button>
+<button class="btn btn-danger" onclick="showLanding()" style="margin-left:auto">🚪 Esci</button>
+</nav>
+
+<div id="gest-dashboard" class="section-content active">
+<div class="panel">
+<h2> Dashboard</h2>
+<div class="stats-box">
+<div class="stat-item"><strong id="gestTotalClients">0</strong><span>Clienti Totali</span></div>
+<div class="stat-item"><strong id="gestTotalProjects">0</strong><span>Progetti Attivi</span></div>
+<div class="stat-item"><strong id="gestTotalRevenue">€0</strong><span>Fatturato</span></div>
+</div>
+</div>
+</div>
+
+<div id="gest-clienti" class="section-content">
+<div class="panel">
+<h2>👥 Gestione Clienti</h2>
+<button class="btn btn-success" onclick="addClient()">➕ Nuovo Cliente</button>
+<table id="gestClientsTable">
+<thead>
+<tr><th>Nome</th><th>Email</th><th>Telefono</th><th>Data</th><th>Azioni</th></tr>
+</thead>
+<tbody id="gestClientsBody"></tbody>
+</table>
+</div>
+</div>
+
+<div id="gest-preventivi" class="section-content">
+<div class="panel">
+<h2>📄 Preventivi</h2>
+<button class="btn btn-success" onclick="addPreventivo()">➕ Nuovo Preventivo</button>
+<table id="gestPreventiviTable">
+<thead>
+<tr><th>Cliente</th><th>Descrizione</th><th>Importo</th><th>Data</th><th>Stato</th></tr>
+</thead>
+<tbody id="gestPreventiviBody"></tbody>
+</table>
+</div>
+</div>
+
+<div id="gest-backup" class="section-content">
+<div class="panel">
+<h2>💾 Backup & Ripristino</h2>
+<button class="btn btn-success" onclick="createGestBackup()">💾 Crea Backup</button>
+<button class="btn btn-primary" onclick="document.getElementById('gestRestoreFile').click()">🔄 Ripristina</button>
+<input type="file" id="gestRestoreFile" accept=".json" style="display:none" onchange="restoreGestBackup(this)">
+</div>
+</div>
+</div>
+
+<!-- APP NEGOZIO -->
+<div id="negozioApp" style="display:none">
+<header class="main-header">
+<h1>🛒 <span style="color:#00FF00">PHOTOManager2026</span> - Negozio</h1>
+<p>Vendita Foto Online</p>
+</header>
+<nav class="main-nav">
+<button class="nav-btn active" onclick="showNegSection('prodotti')">️ Prodotti</button>
+<button class="nav-btn" onclick="showNegSection('ordini')"> Ordini</button>
+<button class="nav-btn" onclick="showNegSection('impostazioni')">⚙️ Impostazioni</button>
+<button class="btn btn-danger" onclick="showLanding()" style="margin-left:auto"> Esci</button>
+</nav>
+
+<div id="neg-prodotti" class="section-content active">
+<div class="panel">
+<h2>🛍️ Gestione Prodotti</h2>
+<button class="btn btn-success" onclick="addProduct()"> Nuovo Prodotto</button>
+<div id="negProductsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-top:20px"></div>
+</div>
+</div>
+
+<div id="neg-ordini" class="section-content">
+<div class="panel">
+<h2>📦 Gestione Ordini</h2>
+<table id="negOrdiniTable">
+<thead>
+<tr><th>ID</th><th>Cliente</th><th>Prodotti</th><th>Totale</th><th>Data</th><th>Stato</th></tr>
+</thead>
+<tbody id="negOrdiniBody"></tbody>
+</table>
+</div>
+</div>
+
+<div id="neg-impostazioni" class="section-content">
+<div class="panel">
+<h2>⚙️ Impostazioni Negozio</h2>
+<div class="form-group">
+<label>Email PayPal per Ricevere Pagamenti</label>
+<input type="email" id="negPaypalEmail" placeholder="<span style="color:#00FF00">photomanager2026@hotmail.com</span>">
+</div>
+<button class="btn btn-success" onclick="saveNegSettings()">💾 Salva Impostazioni</button>
+</div>
+</div>
 </div>
 
 <script>
-function showGestionale(e) {
-    e.preventDefault();
-    alert(' Area Gestionale in caricamento...\n\nQui verrà caricato il Gestionale Unificato completo.\n\nPer ora reindirizziamo al repository MASTER.');
-    window.location.href = 'https://cibox72.github.io/PHOTOManager2026-MASTER/';
+// ============================================
+// CREDENZIALI - DA MODIFICARE PER OGNI CLIENTE
+// ============================================
+const GESTIONALE_USER = 'admin';
+const GESTIONALE_PASS = '<span style="color:#00FF00">photo2026</span>';
+const NEGOZIO_PASS = '<span style="color:#00FF00">photo2026</span>';
+const PAYPAL_EMAIL = '<span style="color:#00FF00">photomanager2026@hotmail.com</span>';
+const CLOUD_NAME = '<span style="color:#00FF00">g3439ih4</span>';
+
+// ============================================
+// NAVIGATION
+// ============================================
+function showLanding() {
+    document.getElementById('landingPage').style.display = 'block';
+    document.getElementById('gestionaleLogin').style.display = 'none';
+    document.getElementById('negozioLogin').style.display = 'none';
+    document.getElementById('gestionaleApp').style.display = 'none';
+    document.getElementById('negozioApp').style.display = 'none';
 }
 
-function showNegozio(e) {
-    e.preventDefault();
-    alert('🛍️ Area Negozio in caricamento...\n\nQui verrà caricato il Negozio Online completo.\n\nPer ora reindirizziamo al repository Negozio.');
-    window.location.href = 'https://cibox72.github.io/PHOTOManager2026-Negozio/negozio-cliente.html';
+function showSection(section) {
+    if (section === 'gestionale') {
+        document.getElementById('landingPage').style.display = 'none';
+        document.getElementById('gestionaleLogin').style.display = 'flex';
+    } else if (section === 'negozio') {
+        document.getElementById('landingPage').style.display = 'none';
+        document.getElementById('negozioLogin').style.display = 'flex';
+    }
 }
 
+function loginGestionale() {
+    const u = document.getElementById('gestionaleUser').value;
+    const p = document.getElementById('gestionalePass').value;
+    if (u === GESTIONALE_USER && p === GESTIONALE_PASS) {
+        document.getElementById('gestionaleLogin').style.display = 'none';
+        document.getElementById('gestionaleApp').style.display = 'block';
+        updateGestDashboard();
+    } else {
+        document.getElementById('gestionaleError').textContent = '❌ Credenziali errate!';
+    }
+}
+
+function loginNegozio() {
+    const p = document.getElementById('negozioPass').value;
+    if (p === NEGOZIO_PASS) {
+        document.getElementById('negozioLogin').style.display = 'none';
+        document.getElementById('negozioApp').style.display = 'block';
+        loadNegProducts();
+    } else {
+        document.getElementById('negozioError').textContent = '❌ Password errata!';
+    }
+}
+
+function showGestSection(sectionId) {
+    document.querySelectorAll('#gestionaleApp .section-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('#gestionaleApp .nav-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('gest-' + sectionId).classList.add('active');
+    event.target.classList.add('active');
+    if (sectionId === 'dashboard') updateGestDashboard();
+    if (sectionId === 'clienti') loadGestClients();
+    if (sectionId === 'preventivi') loadGestPreventivi();
+}
+
+function showNegSection(sectionId) {
+    document.querySelectorAll('#negozioApp .section-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('#negozioApp .nav-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('neg-' + sectionId).classList.add('active');
+    event.target.classList.add('active');
+    if (sectionId === 'prodotti') loadNegProducts();
+    if (sectionId === 'ordini') loadNegOrdini();
+}
+
+// ============================================
+// GESTIONALE - CLIENTI
+// ============================================
+function updateGestDashboard() {
+    const db = getGestDB();
+    document.getElementById('gestTotalClients').textContent = db.clients.length;
+    document.getElementById('gestTotalProjects').textContent = db.clients.filter(c => c.status === 'active').length;
+    const revenue = db.preventivi.reduce((sum, p) => sum + (p.importo || 0), 0);
+    document.getElementById('gestTotalRevenue').textContent = '€' + revenue.toFixed(2);
+}
+
+function getGestDB() {
+    try {
+        const d = JSON.parse(localStorage.getItem('gestionale_db'));
+        if (d) return d;
+    } catch (e) {}
+    return { clients: [], preventivi: [] };
+}
+
+function saveGestDB(db) {
+    localStorage.setItem('gestionale_db', JSON.stringify(db));
+}
+
+function loadGestClients() {
+    const db = getGestDB();
+    const tbody = document.getElementById('gestClientsBody');
+    if (db.clients.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:40px">Nessun cliente</td></tr>';
+        return;
+    }
+    tbody.innerHTML = db.clients.map(c => `
+        <tr>
+            <td><strong>${c.name}</strong></td>
+            <td>${c.email}</td>
+            <td>${c.phone || '-'}</td>
+            <td>${new Date(c.date).toLocaleDateString('it-IT')}</td>
+            <td>
+                <button class="btn btn-sm btn-info" onclick="editClient(${c.id})">✏️</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteClient(${c.id})">🗑️</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function addClient() {
+    const name = prompt('Nome Cliente:');
+    if (!name) return;
+    const email = prompt('Email:');
+    const phone = prompt('Telefono:');
+    const db = getGestDB();
+    db.clients.push({
+        id: Date.now(),
+        name,
+        email,
+        phone,
+        date: new Date().toISOString(),
+        status: 'active'
+    });
+    saveGestDB(db);
+    loadGestClients();
+    alert('✅ Cliente aggiunto!');
+}
+
+function editClient(id) {
+    const db = getGestDB();
+    const client = db.clients.find(c => c.id === id);
+    if (!client) return;
+    const name = prompt('Nome:', client.name);
+    if (name) client.name = name;
+    const email = prompt('Email:', client.email);
+    if (email) client.email = email;
+    const phone = prompt('Telefono:', client.phone);
+    if (phone !== null) client.phone = phone;
+    saveGestDB(db);
+    loadGestClients();
+}
+
+function deleteClient(id) {
+    if (!confirm('Eliminare questo cliente?')) return;
+    const db = getGestDB();
+    db.clients = db.clients.filter(c => c.id !== id);
+    saveGestDB(db);
+    loadGestClients();
+}
+
+// ============================================
+// GESTIONALE - PREVENTIVI
+// ============================================
+function loadGestPreventivi() {
+    const db = getGestDB();
+    const tbody = document.getElementById('gestPreventiviBody');
+    if (db.preventivi.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:40px">Nessun preventivo</td></tr>';
+        return;
+    }
+    tbody.innerHTML = db.preventivi.map(p => `
+        <tr>
+            <td>${p.cliente}</td>
+            <td>${p.descrizione}</td>
+            <td>€${p.importo.toFixed(2)}</td>
+            <td>${new Date(p.date).toLocaleDateString('it-IT')}</td>
+            <td><span class="badge badge-${p.stato === 'approvato' ? 'success' : 'warning'}">${p.stato}</span></td>
+        </tr>
+    `).join('');
+}
+
+function addPreventivo() {
+    const db = getGestDB();
+    if (db.clients.length === 0) {
+        alert('Aggiungi prima un cliente!');
+        return;
+    }
+    const cliente = prompt('Nome Cliente:');
+    if (!cliente) return;
+    const descrizione = prompt('Descrizione:');
+    const importo = parseFloat(prompt('Importo (€):'));
+    if (!descrizione || isNaN(importo)) return;
+    db.preventivi.push({
+        id: Date.now(),
+        cliente,
+        descrizione,
+        importo,
+        date: new Date().toISOString(),
+        stato: 'in_attesa'
+    });
+    saveGestDB(db);
+    loadGestPreventivi();
+    alert('✅ Preventivo aggiunto!');
+}
+
+// ============================================
+// NEGOZIO - PRODOTTI
+// ============================================
+function getNegDB() {
+    try {
+        const d = JSON.parse(localStorage.getItem('negozio_db'));
+        if (d) return d;
+    } catch (e) {}
+    return { products: [], orders: [], settings: { paypalEmail: PAYPAL_EMAIL } };
+}
+
+function saveNegDB(db) {
+    localStorage.setItem('negozio_db', JSON.stringify(db));
+}
+
+function loadNegProducts() {
+    const db = getNegDB();
+    const grid = document.getElementById('negProductsGrid');
+    if (db.products.length === 0) {
+        grid.innerHTML = '<p style="color:#888;text-align:center;grid-column:1/-1">Nessun prodotto</p>';
+        return;
+    }
+    grid.innerHTML = db.products.map(p => `
+        <div class="card">
+            <h3>${p.name}</h3>
+            <p style="color:#666;margin:10px 0">${p.description}</p>
+            <p style="font-size:24px;color:#667eea;font-weight:bold">€${p.price.toFixed(2)}</p>
+            <button class="btn btn-sm btn-info" onclick="editProduct(${p.id})">✏️</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteProduct(${p.id})">🗑️</button>
+        </div>
+    `).join('');
+}
+
+function addProduct() {
+    const name = prompt('Nome Prodotto:');
+    if (!name) return;
+    const description = prompt('Descrizione:');
+    const price = parseFloat(prompt('Prezzo (€):'));
+    if (!description || isNaN(price)) return;
+    const db = getNegDB();
+    db.products.push({
+        id: Date.now(),
+        name,
+        description,
+        price
+    });
+    saveNegDB(db);
+    loadNegProducts();
+    alert('✅ Prodotto aggiunto!');
+}
+
+function editProduct(id) {
+    const db = getNegDB();
+    const product = db.products.find(p => p.id === id);
+    if (!product) return;
+    const name = prompt('Nome:', product.name);
+    if (name) product.name = name;
+    const description = prompt('Descrizione:', product.description);
+    if (description) product.description = description;
+    const price = parseFloat(prompt('Prezzo:', product.price));
+    if (!isNaN(price)) product.price = price;
+    saveNegDB(db);
+    loadNegProducts();
+}
+
+function deleteProduct(id) {
+    if (!confirm('Eliminare questo prodotto?')) return;
+    const db = getNegDB();
+    db.products = db.products.filter(p => p.id !== id);
+    saveNegDB(db);
+    loadNegProducts();
+}
+
+// ============================================
+// NEGOZIO - ORDINI
+// ============================================
+function loadNegOrdini() {
+    const db = getNegDB();
+    const tbody = document.getElementById('negOrdiniBody');
+    if (db.orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:40px">Nessun ordine</td></tr>';
+        return;
+    }
+    tbody.innerHTML = db.orders.map(o => `
+        <tr>
+            <td>#${o.id}</td>
+            <td>${o.cliente}</td>
+            <td>${o.products.length} prodotti</td>
+            <td>€${o.total.toFixed(2)}</td>
+            <td>${new Date(o.date).toLocaleDateString('it-IT')}</td>
+            <td><span class="badge badge-${o.stato === 'completato' ? 'success' : 'warning'}">${o.stato}</span></td>
+        </tr>
+    `).join('');
+}
+
+// ============================================
+// NEGOZIO - IMPOSTAZIONI
+// ============================================
+function saveNegSettings() {
+    const email = document.getElementById('negPaypalEmail').value;
+    const db = getNegDB();
+    db.settings.paypalEmail = email;
+    saveNegDB(db);
+    alert('✅ Impostazioni salvate!');
+}
+
+// ============================================
+// BACKUP
+// ============================================
+function createGestBackup() {
+    const db = getGestDB();
+    const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'backup_gestionale_' + new Date().toISOString().split('T')[0] + '.json';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+    alert('✅ Backup creato!');
+}
+
+function restoreGestBackup(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            localStorage.setItem('gestionale_db', JSON.stringify(data));
+            alert('✅ Backup ripristinato!');
+            location.reload();
+        } catch (err) {
+            alert('❌ Errore: ' + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+// ============================================
+// INIT
+// ============================================
 console.log('✅ PHOTOManager2026 ALL-IN caricato!');
 </script>
 </body>
