@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHOTOManager2026 - Piattaforma Unificata</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh}
+.logo-container{text-align:center;padding:40px 20px}
+.logo-container img{max-width:250px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.main-title{text-align:center;color:#fff;margin:20px 0 40px}
+.main-title h1{font-size:42px;margin-bottom:10px;text-shadow:2px 2px 4px rgba(0,0,0,.3)}
+.main-title p{font-size:18px;opacity:.9}
+.apps-container{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;padding:20px;max-width:1200px;margin:0 auto}
+.app-card{background:#fff;border-radius:20px;padding:40px 30px;width:100%;max-width:400px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,.2);transition:all .3s;cursor:pointer}
+.app-card:hover{transform:translateY(-10px);box-shadow:0 20px 45px rgba(0,0,0,.3)}
+.app-icon{font-size:80px;margin-bottom:20px}
+.app-card h2{color:#2c3e50;font-size:28px;margin-bottom:15px}
+.app-card p{color:#666;font-size:15px;line-height:1.6;margin-bottom:25px}
+.app-card .btn{display:inline-block;padding:15px 40px;background:#667eea;color:#fff;text-decoration:none;border-radius:25px;font-weight:600;font-size:16px;transition:all .3s}
+.app-card .btn:hover{background:#764ba2;box-shadow:0 5px 15px rgba(102,126,234,.4)}
+.footer{text-align:center;color:#fff;padding:30px 20px;margin-top:40px;font-size:14px;opacity:.8}
+@media(max-width:768px){
+.apps-container{flex-direction:column;align-items:center}
+.app-card{max-width:100%}
+.main-title h1{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<div class="logo-container">
+<img src="logo.jpg" alt="Logo Studio" onerror="this.style.display='none'">
+</div>
+
+<div class="main-title">
+<h1>Benvenuto nel Tuo Spazio</h1>
+<p>Scegli l'area che desideri accedere</p>
+</div>
+
+<div class="apps-container">
+<!-- CARD GESTIONALE -->
+<div class="app-card" onclick="window.location.href='#gestionale'">
+<div class="app-icon">📸</div>
+<h2>Gestionale Studio</h2>
+<p>Gestisci clienti, preventivi, contratti e progetti fotografici in modo professionale e organizzato.</p>
+<a href="#gestionale" class="btn" onclick="showGestionale(event)">Accedi al Gestionale</a>
+</div>
+
+<!-- CARD NEGOZIO -->
+<div class="app-card" onclick="window.location.href='#negozio'">
+<div class="app-icon">🛒</div>
+<h2>Negozio Online</h2>
+<p>Sfoglia le tue foto, scegli i prodotti e ordina stampe, tele, gadget e molto altro.</p>
+<a href="#negozio" class="btn" onclick="showNegozio(event)">Accedi al Negozio</a>
+</div>
+</div>
+
+<div class="footer">
+<p>PHOTOManager2026 - Piattaforma Professionale per Studi Fotografici</p>
+<p style="margin-top:10px;font-size:12px">© 2026 - Tutti i diritti riservati</p>
+</div>
+
+<script>
+function showGestionale(e) {
+    e.preventDefault();
+    alert(' Area Gestionale in caricamento...\n\nQui verrà caricato il Gestionale Unificato completo.\n\nPer ora reindirizziamo al repository MASTER.');
+    window.location.href = 'https://cibox72.github.io/PHOTOManager2026-MASTER/';
+}
+
+function showNegozio(e) {
+    e.preventDefault();
+    alert('🛍️ Area Negozio in caricamento...\n\nQui verrà caricato il Negozio Online completo.\n\nPer ora reindirizziamo al repository Negozio.');
+    window.location.href = 'https://cibox72.github.io/PHOTOManager2026-Negozio/negozio-cliente.html';
+}
+
+console.log('✅ PHOTOManager2026 ALL-IN caricato!');
+</script>
+</body>
+</html>
